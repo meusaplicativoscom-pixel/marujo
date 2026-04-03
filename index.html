@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hot Dog do Marujo</title>
+
+<style>
+/* ===== RESET & BODY ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background: #111;
+  color: #fff;
+}
+
+/* ===== TELA DE BOAS-VINDAS ===== */
+#welcome {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #fff;
+  color: #000;
+  text-align: center;
+}
+
+#welcome img {
+  width: 70%;
+  max-width: 400px;
+  margin-bottom: 40px;
+}
+
+#welcome button {
+  background: #ff9900;
+  color: #000;
+  border: none;
+  padding: 15px 30px;
+  margin: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  width: 70%;
+  max-width: 250px;
+}
+
+#welcome button:hover {
+  transform: scale(1.05);
+}
+
+/* ===== FORMULÁRIOS ===== */
+.formulario {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  background: #111;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.formulario input {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  width: 80%;
+  max-width: 400px;
+  font-size: 16px;
+}
+
+.formulario button {
+  margin-top: 20px;
+  background: #ff9900;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* ===== CARDÁPIO ===== */
+#menu {
+  display: none;
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  padding: 10px;
+}
+
+/* ===== TOPO ===== */
+.topo {
+  text-align: center;
+  padding: 20px 10px;
+  background: #000;
+  border-bottom: 3px solid #ff9900;
+}
+
+.logo {
+  width: 25%;
+  max-width: 120px;
+  margin-bottom: 10px;
+  border-radius: 50%;
+  border: 3px solid #ff9900;
+}
+
+.topo h1 {
+  font-size: 24px;
+  margin: 10px 0;
+}
+
+.faixa {
+  display: inline-block;
+  background: #ff9900;
+  color: #000;
+  padding: 6px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* ===== CARD ===== */
+.card {
+  background: #1c1c1c;
+  margin: 15px 10px;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+.titulo {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #ff9900;
+  border-left: 5px solid #ff9900;
+  padding-left: 10px;
+}
+
+/* ===== ITEM ===== */
+.item {
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #333;
+  display: flex;
+  flex-direction: column; /* mobile default */
+  gap: 10px;
+}
+
+.item div.info {
+  flex: 1;
+}
+
+.item h2 {
+  font-size: 16px;
+  margin: 0 0 5px 0;
+}
+
+.preco {
+  color: #ff9900;
+  font-weight: bold;
+}
+
+.controle-quantidade {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.controle-quantidade button {
+  background: #ff9900;
+  border: none;
+  color: #000;
+  padding: 5px 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.controle-quantidade input {
+  width: 50px;
+  text-align: center;
+  border-radius: 5px;
+  border: none;
+  background: #333;
+  color: #fff;
+}
+
+/* ===== SUBTOTAL ===== */
+.subtotal {
+  color: #ff0000;
+  font-size: 14px;
+  margin-top: 5px;
+  text-align: right;
+  font-weight: bold;
+}
+
+/* ===== IMAGEM ===== */
+.imagem {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.imagem img {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 12px;
+}
+
+/* ===== BOTÃO PEDIR ===== */
+.botao {
+  display: block;
+  text-align: center;
+  background: #ff9900;
+  color: #000;
+  padding: 15px;
+  margin: 25px 20px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 16px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* ===== TOTAL ===== */
+.total-geral {
+  text-align: right;
+  font-size: 18px;
+  color: #ff0000;
+  font-weight: bold;
+  margin: 20px;
+}
+
+/* ===== TELEFONE ===== */
+.telefone {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #aaa;
+  font-size: 14px;
+}
+
+/* ===== MEDIA QUERIES ===== */
+@media(min-width: 768px) {
+  .item {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .controle-quantidade input {
+    width: 60px;
+  }
+  .topo h1 {
+    font-size: 28px;
+  }
+  .titulo {
+    font-size: 22px;
+  }
+}
+
+@media(max-width: 480px) {
+  #welcome button {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+  .topo h1 {
+    font-size: 20px;
+  }
+  .titulo {
+    font-size: 18px;
+  }
+  .botao {
+    font-size: 14px;
+    padding: 12px;
+  }
+  .controle-quantidade button {
+    padding: 4px 8px;
+    font-size: 14px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- TELA DE BOAS-VINDAS -->
+<div id="welcome">
+  <img src="https://i.imgur.com/nMbQ09y.png" alt="Logo">
+  <button id="btnDelivery">Delivery</button>
+  <button id="btnComerLocal">Comer no Local</button>
+</div>
+
+<!-- FORMULÁRIOS -->
+<div class="formulario" id="formDelivery">
+  <h2>Informe seu endereço:</h2>
+  <input type="text" id="nomeDelivery" placeholder="Nome completo">
+  <input type="text" id="bairro" placeholder="Bairro">
+  <input type="text" id="rua" placeholder="Rua">
+  <input type="text" id="numero" placeholder="Número da casa">
+  <button id="btnDeliveryOk">OK</button>
+</div>
+
+<div class="formulario" id="formLocal">
+  <h2>Qual é o seu nome?</h2>
+  <input type="text" id="nomeLocal" placeholder="Nome">
+  <button id="btnLocalOk">OK</button>
+</div>
+
+<!-- CARDÁPIO -->
+<div id="menu">
+  <div class="topo">
+    <img src="https://i.imgur.com/nMbQ09y.png" class="logo" alt="Logo">
+    <h1>E aí, bateu a fome?</h1>
+    <div class="faixa">PEDE AGORA O TEU LANCHE!</div>
+  </div>
+
+  <!-- HOT DOGS -->
+  <div class="card">
+    <div class="titulo">🌭 HOT DOGS</div>
+
+    <div class="item" data-nome="Tradicional" data-preco="7.50">
+      <div class="info">
+        <h2>Tradicional <span class="preco">R$7,50</span></h2>
+        <p>Pão, salsicha, carne, frango, milho, batata palha, queijo.</p>
+        <div class="subtotal">Subtotal: R$0,00</div>
+      </div>
+      <div class="controle-quantidade">
+        <button class="menos">-</button>
+        <input type="number" class="quantidade" min="0" value="0">
+        <button class="mais">+</button>
+      </div>
+    </div>
+
+    <div class="item" data-nome="Americano" data-preco="8.50">
+      <div class="info">
+        <h2>Americano <span class="preco">R$8,50</span></h2>
+        <p>Pão, calabresa, carne, frango, milho, batata palha, queijo.</p>
+        <div class="subtotal">Subtotal: R$0,00</div>
+      </div>
+      <div class="controle-quantidade">
+        <button class="menos">-</button>
+        <input type="number" class="quantidade" min="0" value="0">
+        <button class="mais">+</button>
+      </div>
+    </div>
+
+    <div class="item" data-nome="Carne de Sol" data-preco="9.00">
+      <div class="info">
+        <h2>Carne de Sol <span class="preco">R$9,00</span></h2>
+        <p>Pão, salsicha, carne de sol na nata, milho, batata palha, queijo.</p>
+        <div class="subtotal">Subtotal: R$0,00</div>
+      </div>
+      <div class="controle-quantidade">
+        <button class="menos">-</button>
+        <input type="number" class="quantidade" min="0" value="0">
+        <button class="mais">+</button>
+      </div>
+    </div>
+
+    <div class="imagem">
+      <img src="https://st3.depositphotos.com/4431055/35558/i/450/depositphotos_355585458-stock-photo-hot-dogs-ketchup-cola-table.jpg">
+    </div>
+  </div>
+
+  <!-- BEBIDAS -->
+  <div class="card">
+    <div class="titulo">🥤 BEBIDAS</div>
+
+    <div class="item" data-nome="Refrigerante 250ml" data-preco="3.50">
+      <div class="info">
+        <h2>Refrigerante 250ml <span class="preco">R$3,50</span></h2>
+        <div class="subtotal">Subtotal: R$0,00</div>
+      </div>
+      <div class="controle-quantidade">
+        <button class="menos">-</button>
+        <input type="number" class="quantidade" min="0" value="0">
+        <button class="mais">+</button>
+      </div>
+    </div>
+
+    <div class="item" data-nome="Coca Zero 350ml" data-preco="6.00">
+      <div class="info">
+        <h2>Coca Zero 350ml <span class="preco">R$6,00</span></h2>
+        <div class="subtotal">Subtotal: R$0,00</div>
+      </div>
+      <div class="controle-quantidade">
+        <button class="menos">-</button>
+        <input type="number" class="quantidade" min="0" value="0">
+        <button class="mais">+</button>
+      </div>
+    </div>
+
+    <div class="item" data-nome="Refri 1L" data-preco="10.00">
+      <div class="info">
+        <h2>Refri 1L <span class="preco">R$10,00</span></h2>
+        <div class="subtotal">Subtotal: R$0,00</div>
+      </div>
+      <div class="controle-quantidade">
+        <button class="menos">-</button>
+        <input type="number" class="quantidade" min="0" value="0">
+        <button class="mais">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="total-geral">Total: R$0,00</div>
+  <button class="botao" id="btnPedir">📲 PEDIR PELO WHATSAPP</button>
+  <div class="telefone">(84) 99986-3664</div>
+</div>
+
+<script>
+// ===== VARIÁVEIS GLOBAIS =====
+let cliente = {tipo:'', nome:'', endereco:{}};
+const welcome = document.getElementById('welcome');
+const formDelivery = document.getElementById('formDelivery');
+const formLocal = document.getElementById('formLocal');
+const menu = document.getElementById('menu');
+
+// BOTÕES DE BOAS-VINDAS
+document.getElementById('btnDelivery').addEventListener('click', () => {
+  cliente.tipo = 'Delivery';
+  welcome.style.display = 'none';
+  formDelivery.style.display = 'flex';
+});
+
+document.getElementById('btnComerLocal').addEventListener('click', () => {
+  cliente.tipo = 'Local';
+  welcome.style.display = 'none';
+  formLocal.style.display = 'flex';
+});
+
+// FORMULÁRIOS
+document.getElementById('btnDeliveryOk').addEventListener('click', () => {
+  cliente.nome = document.getElementById('nomeDelivery').value;
+  cliente.endereco.bairro = document.getElementById('bairro').value;
+  cliente.endereco.rua = document.getElementById('rua').value;
+  cliente.endereco.numero = document.getElementById('numero').value;
+  if(!cliente.nome || !cliente.endereco.bairro || !cliente.endereco.rua || !cliente.endereco.numero){
+    alert('Preencha todos os campos!');
+    return;
+  }
+  formDelivery.style.display = 'none';
+  menu.style.display = 'block';
+});
+
+document.getElementById('btnLocalOk').addEventListener('click', () => {
+  cliente.nome = document.getElementById('nomeLocal').value;
+  if(!cliente.nome){
+    alert('Preencha seu nome!');
+    return;
+  }
+  formLocal.style.display = 'none';
+  menu.style.display = 'block';
+});
+
+// CARDÁPIO
+const items = document.querySelectorAll('.item');
+const totalGeralEl = document.querySelector('.total-geral');
+
+function atualizarTotais() {
+  let totalGeral = 0;
+  items.forEach(item => {
+    const preco = parseFloat(item.getAttribute('data-preco'));
+    const quantidade = parseInt(item.querySelector('.quantidade').value) || 0;
+    const subtotal = preco * quantidade;
+    item.querySelector('.subtotal').textContent = `Subtotal: R$${subtotal.toFixed(2)}`;
+    totalGeral += subtotal;
+  });
+  totalGeralEl.textContent = `Total: R$${totalGeral.toFixed(2)}`;
+}
+
+// Botões + e -
+items.forEach(item => {
+  const btnMais = item.querySelector('.mais');
+  const btnMenos = item.querySelector('.menos');
+  const input = item.querySelector('.quantidade');
+
+  btnMais.addEventListener('click', () => {
+    input.value = parseInt(input.value) + 1;
+    atualizarTotais();
+  });
+
+  btnMenos.addEventListener('click', () => {
+    if(parseInt(input.value) > 0){
+      input.value = parseInt(input.value) - 1;
+      atualizarTotais();
+    }
+  });
+
+  input.addEventListener('input', atualizarTotais);
+});
+
+// BOTÃO WHATSAPP
+document.getElementById('btnPedir').addEventListener('click', function() {
+  let mensagem = `Olá! ${cliente.tipo==='Local' ? cliente.nome : cliente.nome + ', ' + cliente.endereco.bairro + ', ' + cliente.endereco.rua + ', ' + cliente.endereco.numero}\nGostaria de fazer o pedido:\n`;
+  let total = 0;
+
+  items.forEach(item => {
+    const nomeItem = item.getAttribute('data-nome');
+    const preco = parseFloat(item.getAttribute('data-preco'));
+    const quantidade = parseInt(item.querySelector('.quantidade').value) || 0;
+
+    if(quantidade > 0) {
+      const subtotal = preco * quantidade;
+      mensagem += `- ${nomeItem} x ${quantidade} = R$${subtotal.toFixed(2)}\n`;
+      total += subtotal;
+    }
+  });
+
+  if(total === 0) {
+    alert("Escolha pelo menos um item antes de pedir!");
+    return;
+  }
+
+  mensagem += `Total: R$${total.toFixed(2)}`;
+  const telefone = "5584999863664";
+  const url = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
+  window.open(url, '_blank');
+});
+
+// Inicializa totais
+atualizarTotais();
+</script>
+</body>
+</html>
