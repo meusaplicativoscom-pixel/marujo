@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -522,10 +523,27 @@ items.forEach(item => {
   input.addEventListener('input', atualizarTotais);
 });
 
-// BOTÃO WHATSAPP
 document.getElementById('btnPedir').addEventListener('click', function() {
-  let mensagem = `Olá! ${cliente.tipo==='Local' ? cliente.nome : cliente.nome + ', ' + cliente.endereco.bairro + ', ' + cliente.endereco.rua + ', ' + cliente.endereco.numero}\nGostaria de fazer o pedido:\n`;
+
+  let mensagem = `🍔 *NOVO PEDIDO*\n\n`;
+
+  // CLIENTE
+  mensagem += `👤 *Cliente*\n`;
+  mensagem += `Nome: ${cliente.nome}\n`;
+
+  if(cliente.tipo === 'Delivery'){
+    mensagem += `Bairro: ${cliente.endereco.bairro}\n`;
+    mensagem += `Rua: ${cliente.endereco.rua}\n`;
+    mensagem += `Número: ${cliente.endereco.numero}\n`;
+  } else {
+    mensagem += `Tipo: Comer no local\n`;
+  }
+
+  mensagem += `\n🛒 *Pedido*\n`;
+
   let total = 0;
+  let hotdogs = "";
+  let bebidas = "";
 
   items.forEach(item => {
     const nomeItem = item.getAttribute('data-nome');
@@ -534,7 +552,13 @@ document.getElementById('btnPedir').addEventListener('click', function() {
 
     if(quantidade > 0) {
       const subtotal = preco * quantidade;
-      mensagem += `- ${nomeItem} x ${quantidade} = R$${subtotal.toFixed(2)}\n`;
+
+      if(item.closest('.card').innerText.includes('HOT DOGS')){
+        hotdogs += `- ${nomeItem}: ${quantidade}\n`;
+      } else {
+        bebidas += `- ${nomeItem}: ${quantidade}\n`;
+      }
+
       total += subtotal;
     }
   });
@@ -544,9 +568,19 @@ document.getElementById('btnPedir').addEventListener('click', function() {
     return;
   }
 
-  mensagem += `Total: R$${total.toFixed(2)}`;
+  if(hotdogs){
+    mensagem += `\n🌭 *Hot Dogs*\n${hotdogs}`;
+  }
+
+  if(bebidas){
+    mensagem += `\n🥤 *Bebidas*\n${bebidas}`;
+  }
+
+  mensagem += `\n💰 *Total: R$${total.toFixed(2)}*`;
+
   const telefone = "5584999863664";
   const url = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
+
   window.open(url, '_blank');
 });
 
