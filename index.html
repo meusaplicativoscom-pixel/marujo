@@ -6,6 +6,32 @@
 <title>Hot Dog do Marujo</title>
 
 <style>
+/* Botão flutuante de compartilhamento */
+#shareBtn {
+  position: fixed;          /* Fixa no canto da tela */
+  bottom: 20px;             /* Distância do rodapé */
+  right: 20px;              /* Distância da borda direita */
+  background-color: #28a745; /* Verde */
+  color: white;
+  border: none;
+  border-radius: 50%;       /* Circulo */
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  opacity: 0.85;            /* Discreto */
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 1000;            /* Fica acima de outros elementos */
+}
+
+#shareBtn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
 /* ===== RESET & BODY ===== */
 * {
   box-sizing: border-box;
@@ -286,7 +312,6 @@ body {
 }
 </style>
 </head>
-
 <body>
 
 <!-- TELA DE BOAS-VINDAS -->
@@ -311,7 +336,6 @@ body {
   <input type="text" id="nomeLocal" placeholder="Nome">
   <button id="btnLocalOk">OK</button>
 </div>
-
 <!-- CARDÁPIO -->
 <div id="menu">
   <div class="topo">
@@ -526,6 +550,29 @@ document.getElementById('btnPedir').addEventListener('click', function() {
 
 // Inicializa totais
 atualizarTotais();
+</script>
+<!-- Botão de compartilhamento -->
+<button id="shareBtn" title="Compartilhar">🔗</button>
+<script>
+const btn = document.getElementById("shareBtn");
+const url = "https://meusaplicativoscom-pixel.github.io/marujo/";
+
+btn.addEventListener("click", async () => {
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: "Confira esse site!", url: url });
+    } catch (err) {
+      console.log("Erro ao compartilhar:", err);
+    }
+  } else {
+    try {
+      await navigator.clipboard.writeText(url);
+      alert("Link copiado!");
+    } catch {
+      prompt("Copie este link:", url);
+    }
+  }
+});
 </script>
 </body>
 </html>
