@@ -554,10 +554,10 @@ document.getElementById('btnPedir').addEventListener('click', function() {
       const subtotal = preco * quantidade;
 
       if(item.closest('.card').innerText.includes('HOT DOGS')){
-        hotdogs += `- ${nomeItem}: ${quantidade}\n`;
-      } else {
-        bebidas += `- ${nomeItem}: ${quantidade}\n`;
-      }
+  hotdogs += `- ${nomeItem} (R$${preco.toFixed(2)}) x ${quantidade}\n`;
+} else {
+  bebidas += `- ${nomeItem} (R$${preco.toFixed(2)}) x ${quantidade}\n`;
+}
 
       total += subtotal;
     }
